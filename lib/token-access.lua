@@ -1,10 +1,8 @@
 local _M = {}
 
+local authorized_tokens = multiauth_authorized_tokens or {}
+
 local function check_token(token)
-    local authorized_tokens = {
-        ["1af538baa9045a84c0e889f672baf83ff25"] = "Stakeout",
-        ["1af538baa9045a84c0e889f672baf83ff24"] = "Runscope",
-    }
 
     local token = string.sub(ngx.var.http_authorization, 7)
 
