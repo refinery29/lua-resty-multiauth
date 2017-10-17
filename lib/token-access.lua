@@ -2,9 +2,9 @@ local _M = {}
 
 local authorized_tokens = multiauth_authorized_tokens or {}
 
-local function check_token(token)
+local function check_token(raw_token)
 
-    local token = string.sub(ngx.var.http_authorization, 7)
+    local token = string.sub(raw_token, 7)
 
     if not authorized_tokens[token] then
         ngx.header.content_type = "text/html"

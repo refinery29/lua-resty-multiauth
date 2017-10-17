@@ -8,13 +8,14 @@ local whitelist_ips = multiauth_ip_whitelist or {}
 
 whitelist = iputils.parse_cidrs(whitelist_ips)
 
+token_auth = ngx.header["X-Token-Auth"]
+
 if iputils.ip_in_cidrs(ngx.var.remote_addr, whitelist) then
   ngx.log(ngx.ERR, "Requestor " .. ngx.var.remote_addr .. " on whitelist")
-elseif ngx.var["http_authorization"] then
+elseif token_auth then
   ngx.log(ngx.ERR, "Checking auth header...")
-  token_access.check_token(ngx.var.http_authorization)
+  token_access.check_token(token_auth)
 else
   ngx.log(ngx.ERR, "Validating oauth...")
   oauth_access.validate()
 end
-
